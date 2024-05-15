@@ -47,7 +47,8 @@ public class BookService {
                     book.getDescription(),
                     book.getEpisode(),
                     book.getRequiredTime(),
-                    book.getProgress()
+                    book.getProgress(),
+                    book.getLastViewed()
 
             );
         }).collect(Collectors.toList());
