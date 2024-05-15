@@ -21,8 +21,6 @@ public class Book {
     private String bannerImage;
     private int progress;
     private int likes;
-    private String tagA;
-    private String tagB;
-    private String tagC;
+    private String tag;
 
 }
