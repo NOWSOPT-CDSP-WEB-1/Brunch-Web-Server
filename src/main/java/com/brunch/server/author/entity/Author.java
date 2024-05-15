@@ -13,5 +13,5 @@ public class Author {
     private String name;
     private String description;
     private String job;
-    private Long subscriber;
+    private int subscriber;
 }

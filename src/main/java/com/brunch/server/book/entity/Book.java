@@ -10,7 +10,7 @@ public class Book {
     @Column(name = "book_id")
     private Long id;
 
-    private Long author_id;
+    private long author_id;
 
     private String title;
     private int episode;
@@ -20,7 +20,7 @@ public class Book {
     private String bookImage;
     private String bannerImage;
     private int progress;
-    private int likes;
+    private int likeCount;
     private String tag;
 
 }
