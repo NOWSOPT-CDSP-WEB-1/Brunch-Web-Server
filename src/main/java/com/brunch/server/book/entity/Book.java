@@ -1,8 +1,12 @@
 package com.brunch.server.book.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
+@Getter
+@NoArgsConstructor
 public class Book {
 
     @Id
@@ -10,7 +14,8 @@ public class Book {
     @Column(name = "book_id")
     private Long id;
 
-    private long author_id;
+    @Column(name = "author_id")
+    private long authorId;
 
     private String title;
     private int episode;
