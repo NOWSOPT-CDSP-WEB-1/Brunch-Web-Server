@@ -1,6 +1,5 @@
 package com.brunch.server.book.entity;
 
-import com.brunch.server.author.entity.Author;
 import jakarta.persistence.*;
 
 @Entity
@@ -11,21 +10,19 @@ public class Book {
     @Column(name = "book_id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Author author;
+    private Long author_id;
 
     private String title;
-
-    private int bookEpisode;
-
-    private int bookRuntime;
-
-    private String bookRecommendation;
-
-    private String bookDescription;
-
+    private int episode;
+    private int requiredTime;
+    private String recommendation;
+    private String description;
     private String bookImage;
-
+    private String bannerImage;
     private int progress;
+    private int likes;
+    private String tagA;
+    private String tagB;
+    private String tagC;
 
 }
