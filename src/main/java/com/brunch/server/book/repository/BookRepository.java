@@ -1,7 +1,6 @@
 package com.brunch.server.book.repository;
 
 import com.brunch.server.book.entity.Book;
-import com.brunch.server.author.entity.Author;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

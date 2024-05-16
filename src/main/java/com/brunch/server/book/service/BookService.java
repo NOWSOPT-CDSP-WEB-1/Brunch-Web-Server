@@ -10,64 +10,41 @@ import com.brunch.server.book.service.dto.LikedBookResponse;
 import com.brunch.server.book.service.dto.RecentBookResponse;
 import com.brunch.server.book.service.dto.RecentLikedResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class BookService {
 
-    @Autowired
-    private BookRepository bookRepository;
+    private final BookRepository bookRepository;
+    private final AuthorRepository authorRepository;
 
-    @Autowired
-    private AuthorRepository authorRepository;
+    private Author getAuthorById(Long authorId) {
+        return authorRepository.findById(authorId)
+                .orElseThrow(() -> new AuthorException(ErrorMessage.INVALID_AUTHOR_ID));
+    }
 
     public RecentLikedResponse getRecentAndLikedBooks() {
 
         List<Book> recentBooks = bookRepository.findRecentBooks();
         List<Book> likedBooks = bookRepository.findLikedBooks();
 
-        List<RecentBookResponse> recentBookResponses = recentBooks.stream().map(book -> {
+        List<RecentBookResponse> recentBookResponses = recentBooks.stream()
+                .map(book -> RecentBookResponse.from(book, getAuthorById(book.getAuthorId())))
+                .toList();
 
-            // Author Entity 조회
-            Author author = authorRepository.findById(book.getAuthorId())
-                    .orElseThrow(() -> new AuthorException(ErrorMessage.INVALID_AUTHOR_ID));
+        List<LikedBookResponse> likedBookResponses = likedBooks.stream()
+                .map(book -> LikedBookResponse.from(book, getAuthorById(book.getAuthorId())))
+                .toList();
 
-            return new RecentBookResponse(
-                    book.getId(),
-                    book.getTitle(),
-                    author.getName(),
-                    book.getBookImage(),
-                    book.getDescription(),
-                    book.getEpisode(),
-                    book.getRequiredTime(),
-                    book.getProgress(),
-                    book.getLastViewed()
-
-            );
-        }).collect(Collectors.toList());
-
-        List<LikedBookResponse> likedBookResponses = likedBooks.stream().map(book -> {
-
-            // Author Entity 조회
-            Author author = authorRepository.findById(book.getAuthorId())
-                    .orElseThrow(() -> new AuthorException(ErrorMessage.INVALID_AUTHOR_ID));
-
-            return new LikedBookResponse(
-                    book.getId(),
-                    book.getTitle(),
-                    author.getName(),
-                    book.getBookImage()
-            );
-        }).collect(Collectors.toList());
-
-        return new RecentLikedResponse(recentBookResponses, likedBookResponses);
+        return RecentLikedResponse.builder()
+                .recentBooks(recentBookResponses)
+                .likedBooks(likedBookResponses)
+                .build();
     }
 
 }
