@@ -2,15 +2,10 @@ package com.brunch.server.book.controller;
 
 import com.brunch.server.book.message.SuccessMessage;
 import com.brunch.server.book.service.BookService;
-import com.brunch.server.book.service.dto.BannerResponse;
-import com.brunch.server.book.service.dto.BookDetailResponse;
-import com.brunch.server.book.service.dto.RecentLikedResponse;
+import com.brunch.server.book.service.dto.*;
 import com.brunch.server.common.dto.SuccessResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -40,6 +35,13 @@ public class BookController {
     public SuccessResponse<List<BannerResponse>> getBanner() {
         List<BannerResponse> bannerResponse = bookService.getBanner();
         return SuccessResponse.success(SuccessMessage.SUCCESS_GET_BANNER.getMessage(), bannerResponse);
+    }
+
+    // 좋아요
+    @PostMapping("/books/{bookId}/likes")
+    public SuccessResponse<BookLikeResponse> likedBook(@PathVariable long bookId) {
+        BookLikeResponse bookLikeResponse = bookService.likeBook(bookId);
+        return SuccessResponse.success(SuccessMessage.SUCCESS_POST_LIKE.getMessage(), bookLikeResponse);
     }
 
 }

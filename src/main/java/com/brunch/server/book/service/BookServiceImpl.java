@@ -5,6 +5,7 @@ import com.brunch.server.author.exeception.AuthorException;
 import com.brunch.server.author.message.ErrorMessage;
 import com.brunch.server.author.repository.AuthorRepository;
 import com.brunch.server.book.entity.Book;
+import com.brunch.server.book.exception.BookException;
 import com.brunch.server.book.repository.BookRepository;
 import com.brunch.server.book.service.dto.*;
 import com.brunch.server.posting.entity.Posting;
@@ -74,5 +75,13 @@ public class BookServiceImpl implements BookService {
         return bannerBooks.stream()
                 .map(book -> BannerResponse.from(book, getAuthorById(book.getAuthorId())))
                 .toList();
+    }
+
+    @Transactional
+    public BookLikeResponse likeBook(long bookId) {
+        bookRepository.increaseLikeCount(bookId);
+        Book book = bookRepository.findById(bookId)
+                .orElseThrow(() -> new BookException(com.brunch.server.book.message.ErrorMessage.INVALID_BOOK));
+        return BookLikeResponse.from(book);
     }
 }
