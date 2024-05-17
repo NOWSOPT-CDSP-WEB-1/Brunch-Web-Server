@@ -1,11 +1,15 @@
 package com.brunch.server.book.service;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import com.brunch.server.book.service.dto.BannerResponse;
+import com.brunch.server.book.service.dto.BookDetailResponse;
+import com.brunch.server.book.service.dto.BookLikeResponse;
+import com.brunch.server.book.service.dto.RecentLikedResponse;
 
-@Service
-@RequiredArgsConstructor
-@Transactional(readOnly = true)
-public class BookService {
+import java.util.List;
+
+public interface BookService {
+    RecentLikedResponse getRecentAndLikedBooks();
+    BookDetailResponse getBookDetail(long bookId);
+    List<BannerResponse> getBanner();
+    BookLikeResponse likeBook(long bookId);
 }

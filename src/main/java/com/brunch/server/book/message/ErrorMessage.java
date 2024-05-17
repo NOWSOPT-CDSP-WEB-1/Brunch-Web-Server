@@ -12,6 +12,7 @@ public enum ErrorMessage {
 
     /* 404 NOT_FOUND : 자원을 찾을 수 없음 */
     INVALID_BOOK(NOT_FOUND, "유효하지 않은 책입니다."),
+    INVALID_AUTHOR_ID(NOT_FOUND, "유효하지 않은 작가 id입니다."),
     ;
 
     private final HttpStatus httpStatus;
