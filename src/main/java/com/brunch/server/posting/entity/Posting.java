@@ -4,8 +4,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
 @Entity
 @Getter
 @NoArgsConstructor
@@ -18,6 +16,8 @@ public class Posting {
 
     private Long bookId;
 
+    private Integer bookIndex;
+
     private Long authorId;
 
     private String imageUrl;
@@ -26,11 +26,15 @@ public class Posting {
 
     private String content;
 
+    private String day;
+
     private int requiredTime;
 
     private int commentCount;
 
     private int likeCount;
 
-    private LocalDateTime latestViewTime;
+    private Integer isViewed;
+
+    private Integer isLiked;
 }
