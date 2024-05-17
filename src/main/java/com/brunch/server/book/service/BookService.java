@@ -6,9 +6,9 @@ import com.brunch.server.author.message.ErrorMessage;
 import com.brunch.server.author.repository.AuthorRepository;
 import com.brunch.server.book.entity.Book;
 import com.brunch.server.book.repository.BookRepository;
-import com.brunch.server.book.service.dto.LikedBookResponse;
-import com.brunch.server.book.service.dto.RecentBookResponse;
-import com.brunch.server.book.service.dto.RecentLikedResponse;
+import com.brunch.server.book.service.dto.*;
+import com.brunch.server.posting.entity.Posting;
+import com.brunch.server.posting.repository.PostingRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,8 +22,9 @@ public class BookService {
 
     private final BookRepository bookRepository;
     private final AuthorRepository authorRepository;
+    private final PostingRepository postingRepository;
 
-    private Author getAuthorById(Long authorId) {
+    private Author getAuthorById(long authorId) {
         return authorRepository.findById(authorId)
                 .orElseThrow(() -> new AuthorException(ErrorMessage.INVALID_AUTHOR_ID));
     }
@@ -44,6 +45,25 @@ public class BookService {
         return RecentLikedResponse.builder()
                 .recentBooks(recentBookResponses)
                 .likedBooks(likedBookResponses)
+                .build();
+    }
+
+    public BookDetailResponse getBookDetail(long bookId) {
+
+        List<Book> bookOverview = bookRepository.findBookOverview(bookId);
+        List<Posting> bookChapter = bookRepository.findBookChapter(bookId);
+
+        List<BookOverviewResponse> bookOverviewResponses = bookOverview.stream()
+                .map(book -> BookOverviewResponse.from(book, getAuthorById(book.getAuthorId())))
+                .toList();
+
+        List<BookChapterResponse> bookChapterResponses = bookChapter.stream()
+                .map(posting -> BookChapterResponse.from(bookOverview.get(0), posting))
+                .toList();
+
+        return BookDetailResponse.builder()
+                .bookOverview(bookOverviewResponses)
+                .bookChapter(bookChapterResponses)
                 .build();
     }
 
