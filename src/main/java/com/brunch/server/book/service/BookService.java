@@ -47,4 +47,27 @@ public class BookService {
                 .build();
     }
 
+<<<<<<< Updated upstream
 }
+=======
+    public BookDetailResponse getBookDetail(long bookId) {
+
+        List<Book> bookOverview = bookRepository.findBookOverview(bookId);
+        List<Posting> bookChapter = bookRepository.findBookChapter(bookId);
+
+        List<BookOverviewResponse> bookOverviewResponses = bookOverview.stream()
+                .map(book -> BookOverviewResponse.from(book, getAuthorById(book.getAuthorId())))
+                .toList();
+
+        List<BookChapterResponse> bookChapterResponses = bookChapter.stream()
+                .map(posting -> BookChapterResponse.from(bookOverview.get(0), posting))
+                .toList();
+
+        return BookDetailResponse.builder()
+                .bookOverview(bookOverviewResponses)
+                .bookChapter(bookChapterResponses)
+                .build();
+    }
+햣
+}
+>>>>>>> Stashed changes
