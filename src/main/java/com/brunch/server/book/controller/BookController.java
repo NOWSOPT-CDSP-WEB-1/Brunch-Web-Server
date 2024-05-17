@@ -2,6 +2,7 @@ package com.brunch.server.book.controller;
 
 import com.brunch.server.book.message.SuccessMessage;
 import com.brunch.server.book.service.BookService;
+import com.brunch.server.book.service.dto.BannerResponse;
 import com.brunch.server.book.service.dto.BookDetailResponse;
 import com.brunch.server.book.service.dto.RecentLikedResponse;
 import com.brunch.server.common.dto.SuccessResponse;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -32,6 +35,11 @@ public class BookController {
         return SuccessResponse.success(SuccessMessage.SUCCESS_GET_DETAILED_BOOKS.getMessage(), bookDetailResponse);
     }
 
-    //
+    // 배너 리스트 조회
+    @GetMapping("/books/banner")
+    public SuccessResponse<List<BannerResponse>> getBanner() {
+        List<BannerResponse> bannerResponse = bookService.getBanner();
+        return SuccessResponse.success(SuccessMessage.SUCCESS_GET_BANNER.getMessage(), bannerResponse);
+    }
 
 }

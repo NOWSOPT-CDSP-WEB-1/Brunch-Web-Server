@@ -5,18 +5,18 @@ import com.brunch.server.book.entity.Book;
 import lombok.Builder;
 
 @Builder
-public record LikedBookResponse(
-        Long id,
+public record BannerResponse(
+        long id,
         String title,
         String authorName,
-        String bookImage
+        String bannerImage
 ) {
-    public static LikedBookResponse from(Book book, Author author) {
-        return LikedBookResponse.builder()
+    public static BannerResponse from(Book book, Author author) {
+        return BannerResponse.builder()
                 .id(book.getId())
                 .title(book.getTitle())
                 .authorName(author.getName())
-                .bookImage(book.getBookImage())
+                .bannerImage(book.getBannerImage())
                 .build();
     }
 }
