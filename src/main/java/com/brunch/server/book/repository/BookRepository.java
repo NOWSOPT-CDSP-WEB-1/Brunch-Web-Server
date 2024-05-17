@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface BookRepository extends JpaRepository<Book, Long> {
+    // RecentAndLikedBooks
     @Query("SELECT b FROM Book b JOIN Author a ON b.authorId = a.id " +
             "WHERE b.lastViewed IS NOT NULL ORDER BY b.lastViewed ASC")
     List<Book> findRecentBooks();
@@ -16,6 +17,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
             "WHERE b.likeCount IS NOT NULL ORDER BY b.lastViewed ASC")
     List<Book> findLikedBooks();
 
+    // BookDetail
     @Query("SELECT b FROM Book b JOIN Author a ON b.authorId = a.id " +
             "WHERE b.id = :bookId")
     List<Book> findBookOverview(long bookId);
