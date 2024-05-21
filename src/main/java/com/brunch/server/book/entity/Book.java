@@ -3,6 +3,7 @@ package com.brunch.server.book.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
 import java.time.LocalDateTime;
 
 @Entity
@@ -27,9 +28,9 @@ public class Book {
     private String bannerImage;
     private int progress;
     private int likeCount;
+    private boolean isLiked;
     private String tag;
 
     @Column(name = "last_viewed")
     private LocalDateTime lastViewed;
-
 }

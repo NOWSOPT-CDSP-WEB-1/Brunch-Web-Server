@@ -37,6 +37,7 @@ public class BookController {
         return SuccessResponse.success(SuccessMessage.SUCCESS_GET_BANNER.getMessage(), bannerResponse);
     }
 
+
     // 좋아요
     @PostMapping("/books/{bookId}/likes")
     public SuccessResponse<BookLikeResponse> likedBook(@PathVariable long bookId) {

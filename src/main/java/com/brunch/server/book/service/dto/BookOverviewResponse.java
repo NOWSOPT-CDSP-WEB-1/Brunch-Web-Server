@@ -16,6 +16,7 @@ public record BookOverviewResponse (
         int episode,
         int requiredTime,
         int likeCount,
+        boolean isLiked,
         String recommendation,
         String bookDescription,
         String tag
@@ -32,6 +33,7 @@ public record BookOverviewResponse (
                 .episode(book.getEpisode())
                 .requiredTime(book.getRequiredTime())
                 .likeCount(book.getLikeCount())
+                .isLiked(book.isLiked())
                 .recommendation(book.getRecommendation())
                 .bookDescription(book.getDescription())
                 .tag(book.getTag())
