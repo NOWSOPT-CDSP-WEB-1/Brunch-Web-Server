@@ -6,9 +6,11 @@ import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface BookRepository extends JpaRepository<Book, Long> {
 
     // RecentAndLikedBooks
@@ -37,8 +39,8 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     // BookLike
     @Transactional
     @Modifying
-    @Query("UPDATE Book b SET b.likeCount = b.likeCount + 1 " +
+    @Query("UPDATE Book b " +
+            "SET b.likeCount = b.likeCount + 1, b.isLiked = true " +
             "WHERE b.id = :bookId")
     void increaseLikeCount(long bookId);
-
 }
