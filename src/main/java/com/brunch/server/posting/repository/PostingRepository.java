@@ -12,5 +12,6 @@ public interface PostingRepository extends JpaRepository<Posting, Long> {
 
     List<Posting> findAllByIsLiked(int isLiked);
 
-    List<Posting> findAllByDay(String day);
+    List<Posting> findAllByDayOrderByRequiredTimeDesc(String day);
+    List<Posting> findAllByDayOrderByLikeCountDesc(String day);
 }
