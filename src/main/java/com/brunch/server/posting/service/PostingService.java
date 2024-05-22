@@ -33,8 +33,9 @@ public class PostingService {
     }
 
     public SerializedPostingsResponse getSerializedPosting(String day) {
-        val serializedPostings = getSerializedPostingResponse(day);
-        return SerializedPostingsResponse.of(serializedPostings);
+        val serializedRecentPostings = getSerializedRecentPostingResponse(day);
+        val serializedLikePostings = getSerializedLikePostingResponse(day);
+        return SerializedPostingsResponse.of(serializedRecentPostings, serializedLikePostings);
     }
 
     private List<PostingResponse> getLatestViewedPostingResponse() {
@@ -56,8 +57,15 @@ public class PostingService {
         return PostingResponse.of(posting, author);
     }
 
-    private List<SerializedPostingResponse> getSerializedPostingResponse(String day) {
-        val serializedPostings = postingRepository.findAllByDay(day);
+    private List<SerializedPostingResponse> getSerializedRecentPostingResponse(String day) {
+        val serializedPostings = postingRepository.findAllByDayOrderByRequiredTimeDesc(day);
+        return serializedPostings.stream()
+                .map(this::getSerializedPostingResponse)
+                .toList();
+    }
+
+    private List<SerializedPostingResponse> getSerializedLikePostingResponse(String day) {
+        val serializedPostings = postingRepository.findAllByDayOrderByLikeCountDesc(day);
         return serializedPostings.stream()
                 .map(this::getSerializedPostingResponse)
                 .toList();

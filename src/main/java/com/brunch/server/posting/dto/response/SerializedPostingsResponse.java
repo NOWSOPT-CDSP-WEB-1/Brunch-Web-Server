@@ -8,12 +8,17 @@ import static lombok.AccessLevel.PRIVATE;
 
 @Builder(access = PRIVATE)
 public record SerializedPostingsResponse(
-        @NonNull List<SerializedPostingResponse> serializedPostings
+        @NonNull List<SerializedPostingResponse> recentPostings,
+        @NonNull List<SerializedPostingResponse> likePostings
 ) {
 
-    public static SerializedPostingsResponse of(List<SerializedPostingResponse> serializedPostings) {
+    public static SerializedPostingsResponse of(
+            List<SerializedPostingResponse> recentPostings,
+            List<SerializedPostingResponse> likePostings
+    ) {
         return SerializedPostingsResponse.builder()
-                .serializedPostings(serializedPostings)
+                .recentPostings(recentPostings)
+                .likePostings(likePostings)
                 .build();
     }
 }
